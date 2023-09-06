@@ -1,0 +1,25 @@
+version: '3'
+services:
+  postgres:
+    image: postgres:latest
+    container_name: postgres_db
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: passwd123
+      POSTGRES_DB: tech_challenge
+    ports:
+      - "5432:5432"
+  my-quarkus-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: my-quarkus-app
+    container_name: my-quarkus-app
+    depends_on:
+      - postgres
+    ports:
+      - "8080:8080"
+    environment:
+      QUARKUS_DATASOURCE_URL: jdbc:postgresql://postgres:5432/tech_challenge
+      QUARKUS_DATASOURCE_USERNAME: user
+      QUARKUS_DATASOURCE_PASSWORD: passwd123!
