@@ -52,9 +52,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public void deleteUser(Long id, UserDTO userDTO) {
-        userDTO.setActive(false);
-        User user = UserMapper.toEntity(userDTO);
-        userRepository.deleteById(id, user);
+    public void deleteUser(Long id) {
+        userRepository.findById(id).ifPresent(existingUser -> {
+            existingUser.setActive(false);
+            userRepository.deleteById(id, existingUser);
+        });
     }
 }

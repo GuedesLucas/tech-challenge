@@ -44,7 +44,7 @@ public class UserController {
     @DELETE
     @Path("/{id}")
     public Response deleteUser(@PathParam("id") Long id) {
-        userService.deleteUser(id);
+        userService.deleteUser(id);;
         return Response.noContent().build();
     }
 }
