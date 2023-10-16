@@ -1,0 +1,9 @@
+services:
+  postgres:
+    image: 'postgres:latest'
+    environment:
+      - 'POSTGRES_DB=techchallenge'
+      - 'POSTGRES_PASSWORD=123456'
+      - 'POSTGRES_USER=techchallenge'
+    ports:
+      - 5432:5432
