@@ -10,7 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ClienteService {
@@ -36,6 +38,21 @@ public class ClienteService {
         return this.clienteToClienteResponseDTO(cliente);
     }
 
+    public ClienteResponseDTO editarCliente(String id, CadastrarClienteRequestDTO cadastrarclienteRequestDTO) throws ClienteNaoEncontratoException {
+        Long cpf = this.cpfStringToLong(cadastrarclienteRequestDTO.getCpf());
+        Optional<Cliente> clienteOptional = clienteRepository.findById(Long.valueOf(id));
+
+        if(clienteOptional.isEmpty()){
+            throw new ClienteNaoEncontratoException();
+        }
+
+        Cliente cliente = clienteOptional.get();
+        cliente.setNome(cadastrarclienteRequestDTO.getNome());
+        cliente.setCpf(cpf);
+        clienteRepository.save(cliente);
+        return clienteToClienteResponseDTO(cliente);
+    }
+
     public ClienteResponseDTO buscarClientePorCpf(String cpf) throws ClienteNaoEncontratoException {
         Long cpfLong = this.cpfStringToLong(cpf);
 
@@ -46,6 +63,11 @@ public class ClienteService {
         return this.clienteToClienteResponseDTO(cliente);
     }
 
+    public List<ClienteResponseDTO> listarClientes(){
+        List<Cliente> clientes = clienteRepository.findAll();
+        return clientes.stream().map(this::clienteToClienteResponseDTO).collect(Collectors.toList());
+    }
+
     private Long cpfStringToLong(String cpf){
         return Long.valueOf(cpf.replaceAll("\\.", "").replaceAll("-",""));
     }
@@ -54,8 +76,7 @@ public class ClienteService {
         return new ClienteResponseDTO(
                 cliente.getId(),
                 cliente.getNome(),
-                cliente.getCpf(),
-                cliente.getCreateDate()
+                cliente.getCpf()
         );
     }
 }

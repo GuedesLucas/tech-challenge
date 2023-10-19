@@ -15,13 +15,9 @@ public class ClienteResponseDTO {
     @JsonProperty
     private Long cpf;
 
-    @JsonProperty
-    private LocalDateTime createDate;
-
-    public ClienteResponseDTO(Long id, String nome, Long cpf, LocalDateTime createDate) {
+    public ClienteResponseDTO(Long id, String nome, Long cpf) {
         this.id = id;
         this.nome = nome;
         this.cpf = cpf;
-        this.createDate = createDate;
     }
 }

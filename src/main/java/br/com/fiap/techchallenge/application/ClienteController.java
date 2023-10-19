@@ -70,4 +70,48 @@ public class ClienteController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
+
+    @Operation(
+            summary = "Edita um cliente.",
+            description = "Edita um  cliente.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", content = { @Content(schema = @Schema()) }),
+            @ApiResponse(responseCode = "400", content = { @Content(schema = @Schema()) }),
+            @ApiResponse(responseCode = "500", content = { @Content(schema = @Schema()) })
+    })
+    @PutMapping("/{id}")
+    public ResponseEntity<?> editarCliente(@PathVariable("id") String id, @Valid @RequestBody CadastrarClienteRequestDTO cadastrarclienteRequestDTO){
+        try{
+            ClienteResponseDTO clienteResponseDTO = clienteService.editarCliente(id, cadastrarclienteRequestDTO);
+            return ResponseEntity.ok(clienteResponseDTO);
+
+        }catch (ClienteNaoEncontratoException e){
+            Map<String, List<String>> body = new HashMap<>();
+            body.put("errors", List.of("Cliente nao encontrado."));
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(body);
+        }catch (Exception e){
+            Map<String, List<String>> body = new HashMap<>();
+            body.put("errors", List.of("Erro interno do servidor."));
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(body);
+        }
+    }
+
+    @Operation(
+            summary = "Listar clientes.",
+            description = "Listar clientes.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", content = { @Content(schema = @Schema()) }),
+            @ApiResponse(responseCode = "500", content = { @Content(schema = @Schema()) })
+    })
+    @GetMapping
+    public ResponseEntity<?> listarClientes(){
+        try{
+            return ResponseEntity.ok(clienteService.listarClientes());
+
+        }catch (Exception e){
+            Map<String, List<String>> body = new HashMap<>();
+            body.put("errors", List.of("Erro interno do servidor."));
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(body);
+        }
+    }
 }

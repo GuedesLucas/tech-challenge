@@ -16,30 +16,47 @@ public class Cliente {
     private Long id;
     private String nome;
     private Long cpf;
-    private LocalDateTime createDate;
+    private LocalDateTime createdAt;
 
     public Cliente() {
     }
 
-    public Cliente(String nome, Long cpf, LocalDateTime createDate) {
+    public Cliente(String nome, Long cpf, LocalDateTime createdAt) {
         this.nome = nome;
         this.cpf = cpf;
-        this.createDate = createDate;
+        this.createdAt = createdAt;
     }
+
 
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getNome() {
         return nome;
     }
 
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
     public Long getCpf() {
         return cpf;
     }
 
-    public LocalDateTime getCreateDate() {
-        return createDate;
+    public void setCpf(Long cpf) {
+        this.cpf = cpf;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
     }
 }
