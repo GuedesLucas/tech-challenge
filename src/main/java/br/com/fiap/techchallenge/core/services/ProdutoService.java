@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -28,13 +27,9 @@ public class ProdutoService {
     }
 
     public ProdutoResponseDTO editarProduto(String id, CadastrarProdutoRequestDTO cadastrarProdutoRequestDTO) throws ProdutoNaoEncontradoExeception {
-        Optional<Produto> produtoOptional = produtoRepository.findById(Long.valueOf(id));
+        final var produto = buscarProdutoPorId(id);
 
-        if(produtoOptional.isEmpty()){
-            throw new ProdutoNaoEncontradoExeception();
-        }
 
-        Produto produto = produtoOptional.get();
         produto.setNome(cadastrarProdutoRequestDTO.getNome());
         produto.setDescricao(cadastrarProdutoRequestDTO.getDescricao());
         produto.setCategoria(CategoriaEnum.valueOf(cadastrarProdutoRequestDTO.getCategoria()));
@@ -46,23 +41,20 @@ public class ProdutoService {
     }
 
     public ProdutoResponseDTO buscarProduto(String id) throws ProdutoNaoEncontradoExeception {
-        Optional<Produto> produtoOptional = produtoRepository.findById(Long.valueOf(id));
+        final var produto = buscarProdutoPorId(id);
 
-        if(produtoOptional.isEmpty()){
-            throw new ProdutoNaoEncontradoExeception();
-        }
-
-        return toProdutoResponseDTO(produtoOptional.get());
+        return toProdutoResponseDTO(produto);
     }
 
     public void excluirProduto(String id) throws ProdutoNaoEncontradoExeception {
-        Optional<Produto> produtoOptional = produtoRepository.findById(Long.valueOf(id));
+        final var produtoOptional = buscarProdutoPorId(id);
 
-        if(produtoOptional.isEmpty()){
-            throw new ProdutoNaoEncontradoExeception();
-        }
+        produtoRepository.delete(produtoOptional);
+    }
 
-        produtoRepository.delete(produtoOptional.get());
+    public Produto buscarProdutoPorId(String id) throws ProdutoNaoEncontradoExeception {
+        return produtoRepository.findById(Long.valueOf(id))
+                .orElseThrow(ProdutoNaoEncontradoExeception::new);
     }
 
     public List<ProdutoResponseDTO> listarProdutosPorCategoria(String categoria) throws ProdutoNaoEncontradoExeception {
