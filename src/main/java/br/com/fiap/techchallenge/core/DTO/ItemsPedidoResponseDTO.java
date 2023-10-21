@@ -1,7 +1,11 @@
 package br.com.fiap.techchallenge.core.DTO;
 
+import java.math.BigDecimal;
+
 public record ItemsPedidoResponseDTO(
-        Long idProduto,
+        Long id,
+        String nome,
+        BigDecimal preco,
         Integer quantidade
 ) {
 }

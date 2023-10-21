@@ -22,7 +22,7 @@ public class Pedido {
 
     private BigDecimal valorTotal;
 
-    @ManyToMany(targetEntity = ItemPedido.class)
+    @OneToMany(mappedBy = "pedido")
     private List<ItemPedido> items;
 
     private LocalDateTime createAt;
