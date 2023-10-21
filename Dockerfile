@@ -1,25 +1,14 @@
-# Use the official JDK 19 image as the base image for the build stage
-FROM openjdk:19-jdk AS build
+# Use the official OpenJDK 17 image as a parent image
+FROM adoptopenjdk:17-jre
 
-WORKDIR /work/
+# Set the working directory inside the container
+WORKDIR /app
 
-# Copie os arquivos de compilação para o contêiner
-COPY target/*-runner /work/application
+# Copy the JAR file (assuming it's named "techchallenge.jar") from the build directory into the container
+COPY target/techchallenge.jar /app/techchallenge.jar
 
-# Crie a imagem nativa
-RUN chmod 775 /work/application
-
-# Use a imagem leve do Alpine como base
-FROM alpine:3.14
-
-WORKDIR /work/
-
-# Copie o executável nativo para a imagem final
-COPY --from=builder /work/application /work/application
-
-# Defina a variável de ambiente para o perfil Quarkus
-ENV QUARKUS_PROFILE=prod
-
+# Expose the port that the application will run on
 EXPOSE 8080
 
-CMD ["./application", "-Dquarkus.http.host=0.0.0.0"]
+# Define the command to run your Spring Boot application
+CMD ["java", "-jar", "techchallenge.jar"]
