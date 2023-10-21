@@ -4,13 +4,8 @@ package br.com.fiap.techchallenge.application.adapters.controller;
 import br.com.fiap.techchallenge.core.DTO.CadastrarProdutoRequestDTO;
 import br.com.fiap.techchallenge.core.DTO.ProdutoResponseDTO;
 import br.com.fiap.techchallenge.core.exception.ProdutoNaoEncontradoExeception;
+import br.com.fiap.techchallenge.core.ports.controller.ProdutoController;
 import br.com.fiap.techchallenge.core.services.ProdutoService;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,20 +18,12 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/produtos")
-@Tag(name = "Produtos", description = "Gerenciamento de produtos")
-public class ProdutoController {
+public class ProdutoControllerImpl implements ProdutoController {
 
     @Autowired
     private ProdutoService produtoService;
 
-    @Operation(
-            summary = "Cadastra um novo produto.",
-            description = "Cadastra um novo produto.")
-    @ApiResponses({
-            @ApiResponse(responseCode = "201", content = { @Content(schema = @Schema(implementation = ProdutoResponseDTO.class), mediaType = "application/json") }),
-            @ApiResponse(responseCode = "400", content = { @Content(schema = @Schema()) }),
-            @ApiResponse(responseCode = "500", content = { @Content(schema = @Schema()) })
-    })
+    @Override
     @PostMapping
     public ResponseEntity<?> cadastrarProduto(@Valid @RequestBody CadastrarProdutoRequestDTO cadastrarProdutoRequestDTO){
         try{
@@ -50,14 +37,7 @@ public class ProdutoController {
         }
     }
 
-    @Operation(
-            summary = "Edita um produto.",
-            description = "Edita um produto.")
-    @ApiResponses({
-            @ApiResponse(responseCode = "200", content = { @Content(schema = @Schema(implementation = ProdutoResponseDTO.class), mediaType = "application/json") }),
-            @ApiResponse(responseCode = "400", content = { @Content(schema = @Schema()) }),
-            @ApiResponse(responseCode = "500", content = { @Content(schema = @Schema()) })
-    })
+    @Override
     @PutMapping("/{id}")
     public ResponseEntity<?> editarProduto(@PathVariable("id") String id, @Valid @RequestBody CadastrarProdutoRequestDTO cadastrarProdutoRequestDTO){
         try{
@@ -75,14 +55,7 @@ public class ProdutoController {
         }
     }
 
-    @Operation(
-            summary = "Busca um produto.",
-            description = "Busca um produto por id.")
-    @ApiResponses({
-            @ApiResponse(responseCode = "200", content = { @Content(schema = @Schema(implementation = ProdutoResponseDTO.class), mediaType = "application/json") }),
-            @ApiResponse(responseCode = "404", content = { @Content(schema = @Schema()) }),
-            @ApiResponse(responseCode = "500", content = { @Content(schema = @Schema()) })
-    })
+    @Override
     @GetMapping("/{id}")
     public ResponseEntity<?> buscarProduto(@PathVariable("id") String id){
         try{
@@ -100,14 +73,7 @@ public class ProdutoController {
         }
     }
 
-    @Operation(
-            summary = "Excluir um produto.",
-            description = "Excluir um produto por id.")
-    @ApiResponses({
-            @ApiResponse(responseCode = "200", content = { @Content(schema = @Schema()) }),
-            @ApiResponse(responseCode = "404", content = { @Content(schema = @Schema()) }),
-            @ApiResponse(responseCode = "500", content = { @Content(schema = @Schema()) })
-    })
+    @Override
     @DeleteMapping("/{id}")
     public ResponseEntity<?> excluirProduto(@PathVariable("id") String id){
         try{
@@ -125,13 +91,7 @@ public class ProdutoController {
         }
     }
 
-    @Operation(
-            summary = "Listar produtos por categoria.",
-            description = "Listar produtos por categoria.")
-    @ApiResponses({
-            @ApiResponse(responseCode = "200", content = { @Content(schema = @Schema()) }),
-            @ApiResponse(responseCode = "500", content = { @Content(schema = @Schema()) })
-    })
+    @Override
     @GetMapping
     public ResponseEntity<?> listarProdutosPorCategoria(@RequestParam("categoria") String categoria){
         try{

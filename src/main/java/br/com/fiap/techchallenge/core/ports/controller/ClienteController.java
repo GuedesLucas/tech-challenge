@@ -8,9 +8,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
 
 @Tag(name = "Clientes", description = "Gerenciamento de clientes")
 public interface ClienteController {
@@ -21,7 +19,7 @@ public interface ClienteController {
     @ApiResponses({
             @ApiResponse(responseCode = "201", content = { @Content(schema = @Schema(implementation = ClienteResponseDTO.class), mediaType = "application/json") }),
             @ApiResponse(responseCode = "400", content = { @Content(schema = @Schema()) }) })
-    public ResponseEntity<?> cadastrarCliente(@Valid @RequestBody CadastrarClienteRequestDTO cadastrarclienteRequestDTO);
+    public ResponseEntity<?> cadastrarCliente(CadastrarClienteRequestDTO cadastrarclienteRequestDTO);
 
 
     @Operation(
