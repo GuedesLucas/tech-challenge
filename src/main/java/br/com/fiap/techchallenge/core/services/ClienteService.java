@@ -79,4 +79,10 @@ public class ClienteService {
                 cliente.getCpf()
         );
     }
+
+    public Cliente buscarClientePorId(Long id) {
+        final var clienteOptional = clienteRepository.findById(id);
+
+        return clienteOptional.orElseThrow(ClienteNaoEncontratoException::new);
+    }
 }

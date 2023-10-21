@@ -7,3 +7,21 @@ services:
       - 'POSTGRES_USER=techchallenge'
     ports:
       - 5432:5432
+    networks:
+      - postgres-network
+
+  pgadmin:
+    image: 'dpage/pgadmin4:latest'
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "techchallenge@email.com"
+      PGADMIN_DEFAULT_PASSWORD: "techchallenge"
+    ports:
+      - "15432:80"
+    depends_on:
+      - postgres
+    networks:
+      - postgres-network
+
+networks:
+  postgres-network:
+    driver: bridge
