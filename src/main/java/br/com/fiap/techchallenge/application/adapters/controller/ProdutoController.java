@@ -1,11 +1,8 @@
-package br.com.fiap.techchallenge.application;
+package br.com.fiap.techchallenge.application.adapters.controller;
 
 
-import br.com.fiap.techchallenge.core.DTO.CadastrarClienteRequestDTO;
 import br.com.fiap.techchallenge.core.DTO.CadastrarProdutoRequestDTO;
-import br.com.fiap.techchallenge.core.DTO.ClienteResponseDTO;
 import br.com.fiap.techchallenge.core.DTO.ProdutoResponseDTO;
-import br.com.fiap.techchallenge.core.exception.ClienteJaExistenteException;
 import br.com.fiap.techchallenge.core.exception.ProdutoNaoEncontradoExeception;
 import br.com.fiap.techchallenge.core.services.ProdutoService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -15,7 +12,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.Pattern;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

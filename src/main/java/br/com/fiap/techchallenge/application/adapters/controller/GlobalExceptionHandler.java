@@ -1,4 +1,4 @@
-package br.com.fiap.techchallenge.application;
+package br.com.fiap.techchallenge.application.adapters.controller;
 
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpHeaders;
