@@ -3,6 +3,8 @@ package br.com.fiap.techchallenge.core.DTO;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
+
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 public class CadastrarProdutoRequestDTO {
@@ -15,8 +17,8 @@ public class CadastrarProdutoRequestDTO {
     @NotBlank
     private String descricao;
 
-    @Pattern(regexp = "\\d{1,}\\.\\d{2}")
-    private String preco;
+    @NotNull
+    private BigDecimal preco;
 
     @Pattern(regexp = "LANCHE|SOBREMESA|BEBIDA|ACOMPANHAMENTO")
     private String categoria;
@@ -29,7 +31,7 @@ public class CadastrarProdutoRequestDTO {
         return descricao;
     }
 
-    public String getPreco() {
+    public BigDecimal getPreco() {
         return preco;
     }
 

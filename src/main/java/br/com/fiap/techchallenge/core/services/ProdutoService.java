@@ -33,7 +33,7 @@ public class ProdutoService {
         produto.setNome(cadastrarProdutoRequestDTO.getNome());
         produto.setDescricao(cadastrarProdutoRequestDTO.getDescricao());
         produto.setCategoria(CategoriaEnum.valueOf(cadastrarProdutoRequestDTO.getCategoria()));
-        produto.setPreco(new BigDecimal(cadastrarProdutoRequestDTO.getPreco()));
+        produto.setPreco(cadastrarProdutoRequestDTO.getPreco());
         produto.setUpdateAt(LocalDateTime.now());
 
         produtoRepository.save(produto);
@@ -68,7 +68,7 @@ public class ProdutoService {
         produto.setNome(cadastrarProdutoRequestDTO.getNome());
         produto.setDescricao(cadastrarProdutoRequestDTO.getDescricao());
         produto.setCategoria(CategoriaEnum.valueOf(cadastrarProdutoRequestDTO.getCategoria()));
-        produto.setPreco(new BigDecimal(cadastrarProdutoRequestDTO.getPreco()));
+        produto.setPreco(cadastrarProdutoRequestDTO.getPreco());
         produto.setCreateAt(LocalDateTime.now());
         produto.setUpdateAt(LocalDateTime.now());
         return produto;
