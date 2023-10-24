@@ -12,6 +12,9 @@ import br.com.fiap.techchallenge.infrastructure.ItemPedidoRepository;
 import br.com.fiap.techchallenge.infrastructure.PedidoRepository;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -35,14 +38,16 @@ public class PedidoService {
             cliente = clienteService.buscarClientePorId(pedidoRequestDTO.idCliente());
         }
 
-        final var itemsPedido = pedidoRequestDTO.items().stream()
-                .map(itemRequest -> {
-                    final var produto = produtoService.buscarProdutoPorId(itemRequest.idProduto().toString());
-                    return new ItemPedido(null, produto, itemRequest.quantidade());
-                }).toList();
+        BigDecimal valorTotal = BigDecimal.ZERO;
+        List<ItemPedido> itemsPedido = new ArrayList<>();
 
+        for (final var itemRequest : pedidoRequestDTO.items()) {
+            final var produto = produtoService.buscarProdutoPorId(itemRequest.idProduto().toString());
+            itemsPedido.add(new ItemPedido(null, produto, itemRequest.quantidade()));
+            valorTotal = valorTotal.add(produto.getPreco().multiply(BigDecimal.valueOf(itemRequest.quantidade())));
+        }
 
-        final var pedido = new Pedido(cliente, pedidoRequestDTO.valorTotal());
+        final var pedido = new Pedido(cliente, valorTotal);
         pedidoRepository.save(pedido);
 
         itemsPedido.forEach(itemPedido -> itemPedido.setPedido(pedido));
@@ -63,7 +68,10 @@ public class PedidoService {
         if (filtroStatus != null) {
             return pedidoRepository.findAllByStatus(filtroStatus).stream().map(PedidoService::pedidoToPedidoResponse).toList();
         }
-        return pedidoRepository.findAll().stream().map(PedidoService::pedidoToPedidoResponse).toList();
+        return pedidoRepository.findAll().stream()
+                .map(PedidoService::pedidoToPedidoResponse)
+                .sorted(Comparator.comparingInt(p -> p.status().getOrdem()))
+                .toList();
     }
 
     public PedidoResponseDTO buscarPedido(Long idPedido) {
