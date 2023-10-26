@@ -1,14 +1,11 @@
-# Use the official OpenJDK 17 image as a parent image
-FROM adoptopenjdk:17-jre
-
-# Set the working directory inside the container
+FROM maven:3.8.3-openjdk-17 AS build
 WORKDIR /app
+COPY pom.xml .
+COPY src ./src
+RUN mvn package
 
-# Copy the JAR file (assuming it's named "techchallenge.jar") from the build directory into the container
-COPY target/techchallenge.jar /app/techchallenge.jar
-
-# Expose the port that the application will run on
+FROM amazoncorretto:17-alpine-jdk
+WORKDIR /app
+COPY --from=build /app/target/tech-challenge-0.0.1.jar /app/tech-challenge-0.0.1.jar
 EXPOSE 8080
-
-# Define the command to run your Spring Boot application
-CMD ["java", "-jar", "techchallenge.jar"]
+CMD ["java", "-jar", "tech-challenge-0.0.1.jar"]
