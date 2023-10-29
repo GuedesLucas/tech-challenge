@@ -1,7 +1,6 @@
 package br.com.fiap.techchallenge.core.model;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -14,7 +13,7 @@ public class GatewayPagamento {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
 
-    private UUID gatewayPagamentoID;
+    private String gatewayPagamentoID;
 
     private LocalDateTime createAt;
     private LocalDateTime updateAt;
@@ -23,7 +22,7 @@ public class GatewayPagamento {
 
     }
 
-    public GatewayPagamento(UUID gatewayPagamentoID) {
+    public GatewayPagamento(String gatewayPagamentoID) {
         this.gatewayPagamentoID = gatewayPagamentoID;
         this.createAt = LocalDateTime.now();
     }
@@ -43,16 +42,16 @@ public class GatewayPagamento {
     }
 
     /**
-     * @return UUID return the gatewayPagamentoID
+     * @return String return the gatewayPagamentoID
      */
-    public UUID getGatewayPagamentoID() {
+    public String getGatewayPagamentoID() {
         return gatewayPagamentoID;
     }
 
     /**
      * @param gatewayPagamentoID the gatewayPagamentoID to set
      */
-    public void setGatewayPagamentoID(UUID gatewayPagamentoID) {
+    public void setGatewayPagamentoID(String gatewayPagamentoID) {
         this.gatewayPagamentoID = gatewayPagamentoID;
     }
 

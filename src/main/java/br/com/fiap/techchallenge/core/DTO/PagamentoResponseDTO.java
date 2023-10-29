@@ -1,9 +1,7 @@
 package br.com.fiap.techchallenge.core.DTO;
 
-import java.util.UUID;
-
-public record PagamentoResponseDTO(UUID paymentHash) {
-    public static PagamentoResponseDTO criarPagamentoResponseDTO(UUID hash) {
+public record PagamentoResponseDTO(String paymentHash) {
+    public static PagamentoResponseDTO criarPagamentoResponseDTO(String hash) {
         return new PagamentoResponseDTO(hash);
     }
 }

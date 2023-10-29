@@ -1,12 +1,15 @@
 package br.com.fiap.techchallenge.core.DTO;
 
 import java.math.BigDecimal;
-import java.util.UUID;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public record GatewayPagamentoResponseDTO(
-    UUID id,
+    String id,
+    @JsonProperty("order_id")
     Long orderId,
     BigDecimal amount,
+    @JsonProperty("payment_time")
     String paymentTime,
     String status
 ) {

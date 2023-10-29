@@ -1,7 +1,6 @@
 package br.com.fiap.techchallenge.core.services;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -91,11 +90,11 @@ public class PagamentoService {
     }
 
     public RealizaPagamentoResponseDTO webhookPagamento(String gatewayPamentoId) {
-        Pagamento pagamento = pagamentoRepository.findByGatewayAndStatus(UUID.fromString(gatewayPamentoId), StatusPagamentoEnum.ABERTO);
+        Pagamento pagamento = pagamentoRepository.findByGatewayAndStatus(gatewayPamentoId, StatusPagamentoEnum.ABERTO);
     
         if (pagamento == null) return montaRetornoWook("FAIL");
         GatewayPagamentoResponseDTO gatewayStatus = realizarBuscaPagamentoAPI(gatewayPamentoId);
-        if (gatewayStatus.status() != "success") return montaRetornoWook("FAIL");
+        if (!gatewayStatus.status().contains("success")) return montaRetornoWook("FAIL");
             
         pagamento.setStatus(StatusPagamentoEnum.CONCLUIDO);
         pagamento.setUpdateAt(LocalDateTime.now());

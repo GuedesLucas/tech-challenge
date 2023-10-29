@@ -48,7 +48,7 @@ public class PagamentoControllerImpl implements PagamentoController {
         return ResponseEntity.status(HttpStatus.OK).body(responseDTO);
     }
 
-    @GetMapping("/webhook/:id")
+    @GetMapping("/webhook/{id}")
     public ResponseEntity<RealizaPagamentoResponseDTO> webhookPagamento(
             @PathVariable("id") 
             final String id) {

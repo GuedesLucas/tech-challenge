@@ -1,7 +1,5 @@
 package br.com.fiap.techchallenge.core.services;
 
-import java.util.UUID;
-
 import org.springframework.stereotype.Service;
 
 import br.com.fiap.techchallenge.core.model.GatewayPagamento;
@@ -15,7 +13,7 @@ public class GatewayPagamentoService {
         this.repository = repository;
     }
 
-    public GatewayPagamento salvarGatewayPagamento(UUID gatewayPagamentoID) {
+    public GatewayPagamento salvarGatewayPagamento(String gatewayPagamentoID) {
         final var gp = new GatewayPagamento(gatewayPagamentoID);
         return repository.save(gp);
     }

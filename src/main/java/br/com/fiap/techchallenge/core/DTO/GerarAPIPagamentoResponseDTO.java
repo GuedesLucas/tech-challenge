@@ -1,21 +1,22 @@
 package br.com.fiap.techchallenge.core.DTO;
 
-import java.util.UUID;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class GerarAPIPagamentoResponseDTO {
-    private UUID paymentId;
+    @JsonProperty("payment_id")
+    private String paymentId;
 
     /**
-     * @return UUID return the paymentId
+     * @return String return the paymentId
      */
-    public UUID getPaymentId() {
+    public String getPaymentId() {
         return paymentId;
     }
 
     /**
      * @param paymentId the paymentId to set
      */
-    public void setPaymentId(UUID paymentId) {
+    public void setPaymentId(String paymentId) {
         this.paymentId = paymentId;
     }
 
