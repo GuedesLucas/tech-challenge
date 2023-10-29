@@ -5,7 +5,8 @@ import br.com.fiap.techchallenge.core.DTO.ClienteResponseDTO;
 import br.com.fiap.techchallenge.core.exception.ClienteJaExistenteException;
 import br.com.fiap.techchallenge.core.exception.ClienteNaoEncontratoException;
 import br.com.fiap.techchallenge.core.model.Cliente;
-import br.com.fiap.techchallenge.infrastructure.ClienteRepository;
+import br.com.fiap.techchallenge.infrastructure.repositories.ClienteRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

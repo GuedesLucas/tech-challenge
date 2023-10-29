@@ -1,4 +1,4 @@
-package br.com.fiap.techchallenge.application.adapters.controller;
+package br.com.fiap.techchallenge.application.adapters.exceptions;
 
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpHeaders;

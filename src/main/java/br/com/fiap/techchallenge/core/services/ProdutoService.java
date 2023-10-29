@@ -5,11 +5,11 @@ import br.com.fiap.techchallenge.core.DTO.ProdutoResponseDTO;
 import br.com.fiap.techchallenge.core.Enum.CategoriaEnum;
 import br.com.fiap.techchallenge.core.exception.ProdutoNaoEncontradoExeception;
 import br.com.fiap.techchallenge.core.model.Produto;
-import br.com.fiap.techchallenge.infrastructure.ProdutoRepository;
+import br.com.fiap.techchallenge.infrastructure.repositories.ProdutoRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;

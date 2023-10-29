@@ -5,7 +5,6 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 
 public class CadastrarProdutoRequestDTO {
 

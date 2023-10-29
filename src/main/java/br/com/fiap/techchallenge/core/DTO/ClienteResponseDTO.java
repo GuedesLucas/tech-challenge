@@ -2,8 +2,6 @@ package br.com.fiap.techchallenge.core.DTO;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import java.time.LocalDateTime;
-
 public class ClienteResponseDTO {
 
     @JsonProperty
