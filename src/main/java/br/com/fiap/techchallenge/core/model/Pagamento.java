@@ -40,6 +40,7 @@ public class Pagamento {
         this.gateway = gateway;
         this.createAt = LocalDateTime.now();
     }
+
     /**
      * @return Long return the id
      */
@@ -69,7 +70,7 @@ public class Pagamento {
     }
 
     /**
-     * @return StatusPaymentEnum return the status
+     * @return StatusPagamentoEnum return the status
      */
     public StatusPagamentoEnum getStatus() {
         return status;
@@ -80,6 +81,20 @@ public class Pagamento {
      */
     public void setStatus(StatusPagamentoEnum status) {
         this.status = status;
+    }
+
+    /**
+     * @return GatewayPagamento return the gateway
+     */
+    public GatewayPagamento getGateway() {
+        return gateway;
+    }
+
+    /**
+     * @param gateway the gateway to set
+     */
+    public void setGateway(GatewayPagamento gateway) {
+        this.gateway = gateway;
     }
 
     /**
@@ -109,4 +124,5 @@ public class Pagamento {
     public void setUpdateAt(LocalDateTime updateAt) {
         this.updateAt = updateAt;
     }
+
 }

@@ -1,13 +1,12 @@
 package br.com.fiap.techchallenge.core.services;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import br.com.fiap.techchallenge.core.DTO.GatewayPagamentoResponseDTO;
-import br.com.fiap.techchallenge.core.DTO.GerarAPIPagamentoDTO;
-import br.com.fiap.techchallenge.core.DTO.GerarAPIPagamentoResponseDTO;
 import br.com.fiap.techchallenge.core.DTO.PagamentoRequestDTO;
 import br.com.fiap.techchallenge.core.DTO.PagamentoResponseDTO;
 import br.com.fiap.techchallenge.core.DTO.RealizaPagamentoRequestDTO;
@@ -17,7 +16,6 @@ import br.com.fiap.techchallenge.core.Enum.StatusPedidoEnum;
 import br.com.fiap.techchallenge.core.model.GatewayPagamento;
 import br.com.fiap.techchallenge.core.model.Pagamento;
 import br.com.fiap.techchallenge.core.model.Pedido;
-import br.com.fiap.techchallenge.infrastructure.api.RestTemplateAPI;
 import br.com.fiap.techchallenge.infrastructure.api.exception.APICallException;
 import br.com.fiap.techchallenge.infrastructure.repositories.PagamentoRepository;
 
@@ -29,13 +27,11 @@ public class PagamentoService {
     private final PagamentoRepository pagamentoRepository;
     private final GatewayPagamentoService gatewayPagamentoService;
     private final PedidoService pedidoService;
-    private final RestTemplateAPI restApi;
 
-    public PagamentoService(PagamentoRepository pagamentoRepository, GatewayPagamentoService gatewayPagamentoService, PedidoService pedidoService, RestTemplateAPI restApi) {
+    public PagamentoService(PagamentoRepository pagamentoRepository, GatewayPagamentoService gatewayPagamentoService, PedidoService pedidoService) {
         this.pagamentoRepository = pagamentoRepository;
         this.gatewayPagamentoService = gatewayPagamentoService;
         this.pedidoService = pedidoService;
-        this.restApi = restApi;
     }
 
     public PagamentoResponseDTO cadastrarPagamento(final PagamentoRequestDTO pagamentoRequestDTO) throws APICallException{
@@ -52,15 +48,19 @@ public class PagamentoService {
 
     private PagamentoResponseDTO realizarSolicitacaoPagamentoAPI(Pedido pedido) throws APICallException{
         try {
-            GerarAPIPagamentoDTO pagamentoAPI = GerarAPIPagamentoDTO.fromPedido(pedido);
-            GerarAPIPagamentoResponseDTO paymentAPI = restApi.post(this.construirUrlDaAPI("/payment/qrcode"), pagamentoAPI,GerarAPIPagamentoResponseDTO.class);
-            return PagamentoResponseDTO.criarPagamentoResponseDTO(paymentAPI.getPaymentId());
+            // GerarAPIPagamentoDTO pagamentoAPI = GerarAPIPagamentoDTO.fromPedido(pedido);
+            // GerarAPIPagamentoResponseDTO paymentAPI = restApi.post(this.construirUrlDaAPI("/payment/qrcode"), pagamentoAPI,GerarAPIPagamentoResponseDTO.class);
+
+            UUID uuid = UUID.randomUUID();
+            String uuidAsString = uuid.toString();
+
+            return PagamentoResponseDTO.criarPagamentoResponseDTO(uuidAsString);
         } catch (APICallException apiCallException) {
             throw apiCallException; 
         }
     }
 
-    private String construirUrlDaAPI(String rota) {
+    public String construirUrlDaAPI(String rota) {
         return apiUrl + rota;
     }
 
@@ -83,7 +83,9 @@ public class PagamentoService {
 
     private RealizaPagamentoResponseDTO realizarPagamentoAPI(RealizaPagamentoRequestDTO realizaPagamentoRequesDTO){
         try {
-            return restApi.post(this.construirUrlDaAPI("/payment/pay"),realizaPagamentoRequesDTO,RealizaPagamentoResponseDTO.class);
+            RealizaPagamentoResponseDTO pg = new RealizaPagamentoResponseDTO();
+            pg.setStatus("success");
+            return pg;
         } catch (APICallException apiCallException) {
             throw apiCallException; 
         }
@@ -93,7 +95,7 @@ public class PagamentoService {
         Pagamento pagamento = pagamentoRepository.findByGatewayAndStatus(gatewayPamentoId, StatusPagamentoEnum.ABERTO);
     
         if (pagamento == null) return montaRetornoWook("FAIL");
-        GatewayPagamentoResponseDTO gatewayStatus = realizarBuscaPagamentoAPI(gatewayPamentoId);
+        GatewayPagamentoResponseDTO gatewayStatus = realizarBuscaPagamentoAPI(pagamento);
         if (!gatewayStatus.status().contains("success")) return montaRetornoWook("FAIL");
             
         pagamento.setStatus(StatusPagamentoEnum.CONCLUIDO);
@@ -103,9 +105,9 @@ public class PagamentoService {
         return montaRetornoWook("CONCLUIDO");
     }
 
-    private GatewayPagamentoResponseDTO realizarBuscaPagamentoAPI(String gatewayPagamentoId) throws APICallException{
+    private GatewayPagamentoResponseDTO realizarBuscaPagamentoAPI(Pagamento pagamento) throws APICallException{
         try {
-            return restApi.get(this.construirUrlDaAPI("/payment/" + gatewayPagamentoId), GatewayPagamentoResponseDTO.class);
+            return GatewayPagamentoResponseDTO.fromPagamento(pagamento);
         } catch (APICallException apiCallException) {
             throw apiCallException; 
         }
