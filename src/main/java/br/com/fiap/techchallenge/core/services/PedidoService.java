@@ -8,8 +8,9 @@ import br.com.fiap.techchallenge.core.exception.PedidoNaoEncontratoException;
 import br.com.fiap.techchallenge.core.model.Cliente;
 import br.com.fiap.techchallenge.core.model.ItemPedido;
 import br.com.fiap.techchallenge.core.model.Pedido;
-import br.com.fiap.techchallenge.infrastructure.ItemPedidoRepository;
-import br.com.fiap.techchallenge.infrastructure.PedidoRepository;
+import br.com.fiap.techchallenge.infrastructure.repositories.ItemPedidoRepository;
+import br.com.fiap.techchallenge.infrastructure.repositories.PedidoRepository;
+
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -79,7 +80,7 @@ public class PedidoService {
     }
 
 
-    private Pedido buscarPedidoPorId(Long idPedido) {
+    public Pedido buscarPedidoPorId(Long idPedido) {
         return pedidoRepository.findById(idPedido).orElseThrow(PedidoNaoEncontratoException::new);
     }
 

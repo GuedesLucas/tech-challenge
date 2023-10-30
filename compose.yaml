@@ -38,7 +38,26 @@ services:
       - postgres
     networks:
       - postgres-network
-
+  
+  payment:
+    image: 'guedeslucas/lg-tech-challenge-payment:latest'
+    environment:
+      - SERVER_PORT=8081
+      - DB_HOST=localhost
+      - DB_PORT=5432
+      - DB_NAME=tech_payment
+      - DB_USER=techchallenge
+      - DB_PASSWORD=123456
+      - WEBHOOK_URL=http://localhost:8080
+      - WEBHOOK_PATH=/pagamento/webhook/
+    ports:
+      - 8081:8081
+    depends_on:
+      - postgres
+      - pgadmin
+    network_mode: "host"
+    
 networks:
   postgres-network:
     driver: bridge
+  

@@ -1,11 +1,7 @@
 package br.com.fiap.techchallenge.core.DTO;
 
-import br.com.fiap.techchallenge.core.Enum.CategoriaEnum;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.persistence.*;
-
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 
 public class ProdutoResponseDTO {
     @JsonProperty

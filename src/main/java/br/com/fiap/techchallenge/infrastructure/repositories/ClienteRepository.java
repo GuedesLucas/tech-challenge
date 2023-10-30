@@ -1,4 +1,4 @@
-package br.com.fiap.techchallenge.infrastructure;
+package br.com.fiap.techchallenge.infrastructure.repositories;
 
 import br.com.fiap.techchallenge.core.model.Cliente;
 import org.springframework.data.jpa.repository.JpaRepository;
