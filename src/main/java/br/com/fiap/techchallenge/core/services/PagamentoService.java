@@ -84,6 +84,7 @@ public class PagamentoService {
     private RealizaPagamentoResponseDTO realizarPagamentoAPI(RealizaPagamentoRequestDTO realizaPagamentoRequesDTO){
         try {
             RealizaPagamentoResponseDTO pg = new RealizaPagamentoResponseDTO();
+            this.webhookPagamento(realizaPagamentoRequesDTO.getId());
             pg.setStatus("success");
             return pg;
         } catch (APICallException apiCallException) {
